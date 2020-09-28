@@ -1,0 +1,103 @@
+<%- include("./menu", {title: "Ecommerce" }) %>
+<div class="row">
+    <div class="col-lg-4">
+      <div class="card shadow mb-4">
+        <ul class="list-group list-group-flush" style="font-size: 1.2rem;">
+		<img class="card-img-top" style="width: 100%; height: 200px;" id="preview-img" style="width: 100px; height: 100px;" src="noimage">
+          <li class="list-group-item">Nombre : <strong id="name"></strong></li>
+          <li class="list-group-item">Description : <strong id="description"></strong></li>
+          <li class="list-group-item">Price : <strong id="price"></strong></li>
+          <li class="list-group-item">Discount : <strong id="discount"></strong></li>
+          <li class="list-group-item">Product ID : <strong id="product_id"></strong></li>
+        </ul>
+      </div>
+    </div>
+
+        <form id="upload-image-form" action="/api/products" method="post" enctype="multipart/form-data">
+          <div id="image-preview-div" style="display: none">
+            <label for="exampleInputFile">Selected image:</label>
+            <br>
+          </div>
+          <div class="form-group">
+            <input type="file" name="file" id="file" required>
+          </div>
+          <div class="form-group">
+            <input type="text" name="name" placeholder="name" required>
+          </div>
+          <div class="form-group">
+            <input type="text" name="description" placeholder="description" required>
+          </div>
+          <div class="form-group">
+            <input type="text" name="price" placeholder="price" required>
+          </div>
+          <div class="form-group">
+            <input type="text" name="discount" placeholder="discount" required>
+          </div>
+          <div class="form-group">
+            <input type="text" name="product_id" id="product_id" placeholder="product_id" required>
+          </div>
+          <button class="btn btn-lg btn-primary" id="upload-button" type="submit" disabled>Upload image</button>
+        </form>
+</div>
+	<a onclick="loadProducts();">Reload Products</a>
+    <ul id="products">Items : </ul>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>    
+    <script>
+/*loadProducts();*/
+$('input:text').change((a) => {
+	$('#'+a.currentTarget.name).html($('input:text[name='+a.currentTarget.name+']').val());
+});
+function noPreview() {
+  $('#image-preview-div').css("display", "none");
+  $('#preview-img').attr('src', 'noimage');
+  $('upload-button').attr('disabled', '');
+}
+
+function selectImage(e) {
+  $('#file').css("color", "green");
+  $('#image-preview-div').css("display", "block");
+  $('#preview-img').attr('src', e.target.result);
+  $('#preview-img').css('max-width', '550px');
+
+}
+$(document).ready(function (e) {
+
+  var maxsize = 500 * 1024; // 500 KB
+
+  $('#max-size').html((maxsize/1024).toFixed(2));
+
+  $('#upload-image-form').on('submit', function(e) {
+
+    e.preventDefault();
+
+    $('#message').empty();
+    $('#loading').show();
+  });
+
+  $('#file').change(function() {
+
+    $('#message').empty();
+
+    var file = this.files[0];
+    var match = ["image/jpeg", "image/png", "image/jpg"];
+
+    if ( !( (file.type == match[0]) || (file.type == match[1]) || (file.type == match[2]) ) )
+    {
+      noPreview();
+      $('#message').html('<div class="alert alert-warning" role="alert">Unvalid image format. Allowed formats: JPG, JPEG, PNG.</div>');
+      return false;
+    }
+    
+    $('#upload-button').removeAttr("disabled");
+
+    var reader = new FileReader();
+    reader.onload = selectImage;
+    reader.readAsDataURL(this.files[0]);
+
+  });
+
+});
+    </script>
+
+<script type="text/javascript" src="./upload.js"></script>
+<%- include("./footer") %>

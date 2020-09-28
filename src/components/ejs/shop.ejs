@@ -1,0 +1,34 @@
+<%- include("./menu", {title: "Ecommerce" }) %>
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="site-section">
+      <div class="container">
+
+        <div class="row mb-5">
+          <div class="col-md-9 order-2">
+
+            <div class="row mb-5">
+            <%data.rows.forEach(product => { %>
+                <div class="block-4 text-center border">
+                  <figure class="block-4-image">
+                    <a href="/shop-single/<%=product.id%>"><img src="/public/<%=product.id%>/<%=product.image%>" alt="<%=product.name%>" class="img-fluid" style="width: 150px; height: 200px;"></a>
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <h3><a href="/shop-single/<%=product.id%>"><%=product.name%></a></h3>
+                    <p class="mb-0"><%=product.description%></p>
+                    <p class="text-primary font-weight-bold">$<%=product.price%></p>
+                  </div>
+                </div>
+            <%});%>
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+<%- include("./footer") %>

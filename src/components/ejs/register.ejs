@@ -1,0 +1,45 @@
+<%- include("./menu", {title: "Ecommerce" }) %>
+
+<form action="/admin/register" method="post">
+  <% if (data.alert) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong><%= data.alert %></strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <% } %>
+    <div class="form-group mx-sm-5 mb-2">
+      <label for="exampleFormControlTextarea1">Nombre</label>
+      <input type="text" class="form-control" id="exampleFormControlTextarea1" rows="3" name="name" placeholder="Nombre" required>
+    </div>
+    <div class="form-group mx-sm-5 mb-2">
+      <label for="exampleFormControlTextarea1">Apellido</label>
+      <input type="text" class="form-control" id="exampleFormControlTextarea1" rows="3" name="lastname" placeholder="Apellido" required>
+    </div>
+    <div class="form-group mx-sm-5 mb-2">
+      <label for="exampleFormControlTextarea1">Username</label>
+      <input type="text" class="form-control" id="exampleFormControlTextarea1" rows="3" name="username" placeholder="Username" required>
+    </div>
+    <div class="form-group mx-sm-5 mb-2">
+      <label for="exampleFormControlTextarea1">Contraseña</label>
+      <input type="password" class="form-control" id="exampleFormControlTextarea2" rows="3" name="password" placeholder="Contraseña" required>
+    </div>
+    <div class="form-group mx-sm-5 mb-2">
+      <label for="exampleFormControlTextarea1">Email</label>
+      <input type="email" class="form-control" id="exampleFormControlTextarea2" rows="3" name="email" placeholder="Email" required>
+    </div>
+    <div class="form-group mx-sm-5 mb-2">
+      <label for="exampleFormControlTextarea1">Teléfono</label>
+      <input type="number" class="form-control" id="exampleFormControlTextarea2" rows="3" name="phone" placeholder="Teléfono" required>
+    </div>
+    <div class="form-group mx-sm-5 mb-2">
+      <label for="exampleFormControlTextarea1">DNI</label>
+      <input type="number" class="form-control" id="exampleFormControlTextarea2" rows="3" name="dni" placeholder="DNI" required>
+    </div>
+  <button type="submit" class="btn btn-primary mb-2">Registrar</button><br>
+</form>
+
+
+
+<%- include("./footer") %>
