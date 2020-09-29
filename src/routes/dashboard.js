@@ -11,19 +11,28 @@ router.get('/', Utils.Auth, (req, res) => {
 	})
 });
 
-router.get('/productos', Utils.Auth, (req, res) => {
+router.get('/productos/:id', Utils.Auth, (req, res) => {
+	var id = Utils.clean(req.params.id);
+	if(!id)return res.redirect('/admin/dashboard');
+	if(isNaN(+id) && id !== 'create')return res.redirect('/admin/dashboard');
+	if(id === 'create') {
+		Utils.renderDashboard(req, res, 'create', {alert:''});
+	}else {
+		Utils.database().get(`SELECT * FROM products WHERE id = ${+id}`, (err, product) => {
+			Utils.renderDashboard(req, res, 'edit', {product, alert:''});
+		});
+	}
+});
+
+router.get('/pedidos/:id', Utils.Auth, (req, res) => {
     Utils.renderDashboard(req, res, 'dashboard', {alert:''});
 })
 
-router.get('/pedidos', Utils.Auth, (req, res) => {
+router.get('/stock/:id', Utils.Auth, (req, res) => {
     Utils.renderDashboard(req, res, 'dashboard', {alert:''});
 })
 
-router.get('/stock', Utils.Auth, (req, res) => {
-    Utils.renderDashboard(req, res, 'dashboard', {alert:''});
-})
-
-router.get('/categorias', Utils.Auth, (req, res) => {
+router.get('/categorias/:id', Utils.Auth, (req, res) => {
     Utils.renderDashboard(req, res, 'dashboard', {alert:''});
 })
 
