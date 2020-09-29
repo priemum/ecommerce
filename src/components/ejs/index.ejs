@@ -1,8 +1,9 @@
 <%- include("./menu", {title: "Ecommerce" }) %>
+<div class="row">
   <%
     data.rows.forEach(product => { %>
     <div class="card" style="width: 18rem;">
-	  <img class="card-img-top" src="../../public/products_images/<%=product.id%>/" alt="<%=product.name%>">
+	  <img class="card-img-top" src="../../public/products_images/<%=product.id%>/<%=product.image%>" alt="<%=product.name%>">
 	  <div class="card-body">
 	    <h5 class="card-title"><%=product.name%></h5>
 	    <p class="card-text"><%=product.description%></p>
@@ -11,4 +12,5 @@
 	</div>
 	<%});
   %>
+</div>
 <%- include("./footer") %>
