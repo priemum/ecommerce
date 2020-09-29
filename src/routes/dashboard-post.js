@@ -2,24 +2,67 @@ const router = require('express').Router();
 
 const Utils = require('../settings/utils.js');
 
+const fs = require('fs');
+
 router.post('/', Utils.Auth, (req, res) => {
     Utils.renderTemplate(req, res, 'dashboard', {alert:''});
 });
 
-router.post('/productos', Utils.Auth, (req, res) => {
-	res.end('Ready to post products');
-})
+router.post('/productos/:id', Utils.Auth, (req, res) => {
+	var id = Utils.clean(req.params.id);
+	if(!id)return res.redirect('/admin/dashboard');
+	if(isNaN(+id) && id !== 'create')return res.redirect('/admin/dashboard');
+	if(id === 'create') {
+		var datos = {
+			name 		: Utils.clean(req.body.name),
+			description : Utils.clean(req.body.description),
+			product_id 	: +Utils.clean(req.body.product_id),
+			price 		: +Utils.clean(req.body.price),
+			image 		: req.files.image
+		}
+		if(isNaN(datos.product_id) || isNaN(datos.price))return res.redirect('/admin/dashboard/productos/create');
+		if(datos.image){
+			Utils.database().run(`INSERT INTO products(name, description, product_id, price, image) VALUES('${datos.name}','${datos.description}','${datos.product_id}',${datos.price}, '${datos.image.name}')`, (err) => {
+				Utils.database().get(`SELECT * FROM products WHERE product_id = ${datos.product_id} and name = '${datos.name}' and price = ${datos.price}`, (err, row) => {
+					if(err)return console.error(err.message);
+					if(row){
+			            fs.readdir(`${process.cwd()}/src/public/products_images/${row.id}`, (err, files) => {
+	                        if (err) {
+	                            if (err.code === "ENOENT") {
+	                                fs.mkdirSync(`${process.cwd()}/src/public/products_images/${row.id}`);
+	                                archivos = [];
+	                            }
+	                        }
+			                datos.image.mv(`${process.cwd()}/src/public/products_images/${row.id}/${datos.image.name}`, err => {
+			                    if (err) return res.status(500).send({
+			                        message: err
+			                    })
+			                    return res.redirect('/admin/dashboard');
+			                })
+			            })
+					}
+				})
+			})
+		}else {
+			Utils.database().run(`INSERT INTO products(name, description, product_id, price) VALUES('${datos.name}','${datos.description}',${datos.product_id},${datos.price})`)
+		}
+	}else {
+		Utils.database().get(`SELECT * FROM products WHERE id = ${+id}`, (err, product) => {
+			Utils.renderDashboard(req, res, 'edit', {product, alert:''});
+		});
+	}
+});
 
 router.post('/pedidos', Utils.Auth, (req, res) => {
 	res.end('Ready to post pedidos');
-})
+});
 
 router.post('/stock', Utils.Auth, (req, res) => {
 	res.end('Ready to post stock');
-})
+});
 
 router.post('/categorias', Utils.Auth, (req, res) => {
 	res.end('Ready to post categorias');
-})
+});
 
 exports = module.exports = router;

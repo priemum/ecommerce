@@ -103,7 +103,10 @@
                               <td><%=producto.price%></td>
                               <td><%=producto.visible%></td>
                               <td><%=producto.discount%></td>
-                              <td><a href="/admin/dashboard/productos/<%=producto.id%>"><i class="fa fa-pencil"></i> Edit</a></td>
+                              <td>
+                                <a href="/admin/dashboard/productos/<%=producto.id%>"><i class="fa fa-pencil"></i> Edit</a><br />
+                                <a href="/admin/dashboard/productos/delete/<%=producto.id%>"><i class="fa fa-trash"></i> Delete</a>
+                              </td>
                             </tr>
                           <%})
                         %>

@@ -10,7 +10,7 @@ router.use('/dashboard', require('./dashboard-post'));
 
 router.get('/login', Utils.notAuth, (req, res) => {
     Utils.renderTemplate(req, res, 'login', {alert:''});
-})
+});
 
 router.post('/login', Utils.notAuth, (req, res) => {
     var mail_login = Utils.clean(req.body.mail);
