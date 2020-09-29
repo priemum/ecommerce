@@ -6,6 +6,8 @@ const crypto = require('crypto');
 
 router.use('/dashboard', require('./dashboard'));
 
+router.use('/dashboard', require('./dashboard-post'));
+
 router.get('/login', Utils.notAuth, (req, res) => {
     Utils.renderTemplate(req, res, 'login', {alert:''});
 })

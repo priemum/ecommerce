@@ -33,6 +33,14 @@ var all = {req, res, data};
 res.render(templateDir, all);
 };
 
+exports.renderDashboard = (req, res, template, data) => {
+const dataDir = path.resolve(`${process.cwd()}${path.sep}src${path.sep}components${path.sep}dashboard`);
+
+const templateDir = path.resolve(`${dataDir}${path.sep}${template}.ejs`);
+var all = {req, res, data};
+res.render(templateDir, all);
+};
+
 exports.database = (db) => {
   const sqlite3 = require('sqlite3').verbose();
   db = new sqlite3.Database("./every.sqlite");
