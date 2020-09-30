@@ -5,7 +5,17 @@ const Utils = require('../settings/utils.js');
 router.get('/shop', (req, res) => {
     Utils.database().all('SELECT * FROM products', (err, rows) => {
         if (err) return console.error(err.message);
-        Utils.renderTemplate(req, res, 'shop', {rows, alert:''})
+        Utils.database().all('SELECT * FROM category', (err, categories) => {
+            var prices = {
+                min : 1000000000,
+                max : 0
+            };
+            rows.forEach(r => {
+                if(r.price < prices.min)prices.min = r.price;
+                if(r.price > prices.max)prices.max = r.price;
+            })
+            Utils.renderTemplate(req, res, 'shop', {rows, categories, alert:'', prices});
+        })
     });
 });
 

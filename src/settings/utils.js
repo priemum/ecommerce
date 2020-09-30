@@ -21,7 +21,7 @@ exports.Admin = (req, res, next) => {
 }
 exports.notAuth = (req, res, next) => {
     if (req.session.loggedin) {
-        res.redirect('/profile');
+        res.redirect('/admin/dashboard');
     } else next();
 }
 

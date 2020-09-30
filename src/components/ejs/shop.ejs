@@ -6,6 +6,11 @@
         </div>
       </div>
     </div>
+
+
+
+
+
     <div class="site-section">
       <div class="container">
 
@@ -13,22 +18,88 @@
           <div class="col-md-9 order-2">
 
             <div class="row mb-5">
+
             <%data.rows.forEach(product => { %>
+
+              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="/shop-single/<%=product.id%>"><img src="/public/<%=product.id%>/<%=product.image%>" alt="<%=product.name%>" class="img-fluid" style="width: 150px; height: 200px;"></a>
+                    <a href="shop-single.html"><img src="/public/products_images/<%=product.id%>/<%=product.image%>" alt="<%=product.name%>" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="/shop-single/<%=product.id%>"><%=product.name%></a></h3>
+                    <h3><a href="shop-single.html"><%=product.name%></a></h3>
                     <p class="mb-0"><%=product.description%></p>
-                    <p class="text-primary font-weight-bold">$<%=product.price%></p>
+                    <p class="text-primary font-weight-bold" id="price">$<%=product.price%></p>
                   </div>
                 </div>
-            <%});%>
+              </div>
+
+            <%})%>
+
             </div>
           </div>
+
+          <div class="col-md-3 order-1 mb-5 mb-md-0">
+            <div class="border p-4 rounded mb-4">
+              <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
+              <ul class="list-unstyled mb-0">
+                <%data.categories.forEach(category => { %>
+                  <li class="mb-1"><a href="#" class="d-flex"><span><%=category.name%></span></a></li>
+                <%})%>
+              </ul>
+            </div>
+
+            <div class="border p-4 rounded mb-4">
+              <div class="mb-4">
+                <h3 class="mb-3 h6 text-uppercase text-black d-block">Filtrar por Precio</h3>
+                <div id="slider-range" class="border-primary"></div>
+                <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
+                <a onclick="valor();" class="btn btn-primary text-white">Apply</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
 
 
+
 <%- include("./footer") %>
+
+
+
+<script>
+  var siteSliderRange = function() {
+    $( "#slider-range" ).slider({
+      range: true,
+      min: <%=data.prices.min - 100%>,
+      max: <%=data.prices.max + 100%>,
+      values: [ <%=data.prices.min - 100%>, <%=data.prices.max + 100%> ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+      }
+    });
+    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+  };
+  siteSliderRange();
+
+  function valor() {
+    var prices = $('p[id*="price"]').text();
+    var prices = prices.split('$').slice(1);
+    prices.forEach(price => {
+      if(+price < $( "#slider-range" ).slider( "values", 0 ) || +price > $( "#slider-range" ).slider( "values", 1 )){
+        $('p[id*="price"]:contains('+price+')').parent().parent().parent().hide(1000);
+      }else {
+        $('p[id*="price"]:contains('+price+')').parent().parent().parent().show(1000);
+      }
+    })
+  }
+
+/*
+  $('#slider-range').click(() => {
+    valor();
+  });*/
+</script>
