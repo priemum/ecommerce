@@ -47,9 +47,40 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 			Utils.database().run(`INSERT INTO products(name, description, product_id, price) VALUES('${datos.name}','${datos.description}',${datos.product_id},${datos.price})`)
 		}
 	}else {
-		Utils.database().get(`SELECT * FROM products WHERE id = ${+id}`, (err, product) => {
-			Utils.renderDashboard(req, res, 'edit', {product, alert:''});
-		});
+		var datos = {
+			name 		: Utils.clean(req.body.name),
+			description : Utils.clean(req.body.description),
+			product_id 	: +Utils.clean(req.body.product_id),
+			price 		: +Utils.clean(req.body.price),
+			discount 	: +Utils.clean(req.body.discount),
+			image 		: req.files.file
+		}
+		if(isNaN(datos.product_id) || isNaN(datos.price) || isNaN(datos.discount))return res.redirect('/admin/dashboard/productos/'+id);
+		if(datos.image){
+			fs.readdir(`${process.cwd()}/src/public/products_images/${id}`, (err, files) => {
+				if(err){
+					if(err.code === "ENOENT"){
+						fs.mkdirSync(`${process.cwd()}/src/public/products_images/${id}`);
+					}
+				}
+				datos.image.mv(`${process.cwd()}/src/public/products_images/${id}/${datos.image.name}`, err => {
+					if(err)return res.status(500).send({message:err});
+					return res.redirect('/admin/dashboard');
+				})
+			})
+			Utils.database().run(`UPDATE products SET image = '${datos.image.name}',
+			name = '${datos.name}',
+			description = '${datos.description}',
+			product_id = ${datos.product_id},
+			price = ${datos.price},
+			discount = ${datos.discount} WHERE id = ${id}`)
+		}else {
+			Utils.database().run(`UPDATE products SET name = '${datos.name}',
+			description = '${datos.description}',
+			product_id = ${datos.product_id},
+			price = ${datos.price},
+			discount = ${datos.discount} WHERE id = ${id}`)
+		}
 	}
 });
 
