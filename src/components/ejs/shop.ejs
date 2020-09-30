@@ -18,7 +18,7 @@
 
             <div class="row mb-5">
             <%data.rows.forEach(product => { %>
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+              <div class="col-sm-6 col-lg-4 mb-4 product-item" data-aos="fade-up" category="<%=product.category_0%>">
               <a id="categoria_producto" class="d-none"><%=product.category_0%></a>
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
@@ -40,11 +40,11 @@
           <div class="col-md-3 order-1 mb-5 mb-md-0">
             <div class="border p-4 rounded mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
-              <ul class="list-unstyled mb-0">
+              <ul class="list-unstyled mb-0 category_list">
                 <%data.categories.forEach(category => { %>
-                  <li class="mb-1"><a href="#" onclick="categories(<%=category.id%>);" class="d-flex"><span><%=category.name%></span></a></li>
+                  <li class="mb-1"><a href="#" class="d-flex category_item" category="<%=category.id%>"><span><%=category.name%></span></a></li>
                 <%})%>
-                  <li class="mb-1"><a href="#" onclick="categories('all')" class="d-flex"><span>Todos</span></a></li>
+                  <li class="mb-1"><a href="#" class="d-flex category_item" category="all"><span>Todos</span></a></li>
               </ul>
             </div>
 
@@ -97,20 +97,57 @@
     })
   }
 
-  function categories(category) {
+/*  function categories(category) {
     if(category === "all"){
         return $('a[id*="categoria_producto"]').parent().show(1000);
     }
     var items = $('a[id*="categoria_producto"]').text();
     var items_2 = $('p[id*="price"]').parent().parent().parent().children('#categoria_producto');
     for (var i = items_2.length - 1; i >= 0; i--) {
+      console.log(+items_2[i].text === +category);
+      console.log(+items_2[i].text)
       if(+items_2[i].text === +category){
         $('a[id*="categoria_producto"]:contains("'+items_2[i].text+'")').parent().show(1000);
       }else {
         $('a[id*="categoria_producto"]:contains("'+items_2[i].text+'")').parent().hide(1000);
       }
     }
-  }
+  }*/
+
+$(document).ready(function(){
+
+  // AGREGANDO CLASE ACTIVE AL PRIMER ENLACE ====================
+  $('.category_list .category_item[category="all"]').addClass('ct_item-active');
+
+  // FILTRANDO PRODUCTOS  ============================================
+
+  $('.category_item').click(function(){
+    var catProduct = $(this).attr('category');
+    console.log(catProduct);
+
+    // AGREGANDO CLASE ACTIVE AL ENLACE SELECCIONADO
+    $('.category_item').removeClass('ct_item-active');
+    $(this).addClass('ct_item-active');
+
+    // OCULTANDO PRODUCTOS =========================
+    function hideProduct(){
+      $('.product-item').hide(1000);
+    } setTimeout(hideProduct,400);
+
+    // MOSTRANDO PRODUCTOS =========================
+    function showProduct(){
+      $('.product-item[category="'+catProduct+'"]').show(1000);
+    } setTimeout(showProduct,400);
+  });
+
+  // MOSTRANDO TODOS LOS PRODUCTOS =======================
+
+  $('.category_item[category="all"]').click(function(){
+    function showAll(){
+      $('.product-item').show(1000);
+    } setTimeout(showAll,400);
+  });
+});
 
 /*
   $('#slider-range').click(() => {
