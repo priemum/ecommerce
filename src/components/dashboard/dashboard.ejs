@@ -160,28 +160,21 @@
                           <th>ID</th>
                           <th>Nombre</th>
                           <th>Descripcion</th>
-                          <th>Precio</th>
-                          <th>Visible</th>
-                          <th>Descuento</th>
-                          <th>Stock</th>
                           <th></th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
+
                         <%
-                          data.productos.forEach(category => { %>
+                          data.categories.forEach(category => { %>
                           <form action="/admin/dashboard/category/<%=category.id%>">
                             <tr>
-                              <td id="<%=category.id%>"><%=category.product_id%></td>
-                              <td id="<%=category.id%>"><%=category.name%></td>
-                              <td id="<%=category.id%>"><%=category.description%></td>
-                              <td id="<%=category.id%>"><%=category.price%></td>
-                              <td id="<%=category.id%>"><%=category.visible%></td>
-                              <td id="<%=category.id%>"><%=category.discount%></td>
-                              <td id="<%=category.id%>"><%=category.stock%></td>
-                              <td id="<%=category.id%>"><a onclick="edit_category(<%=category.id%>)"><i class="fa fa-pencil"></i> Edit</a></td>
-                              <td id="<%=category.id%>"><a href="/admin/dashboard/category/delete/<%=category.id%>"><i class="fa fa-trash"></i> Delete</a></td>
+                              <td><%=category.id%></td>
+                              <td><%=category.name%></td>
+                              <td><%=category.description%></td>
+                              <td><a href="/admin/dashboard/category/<%=category.id%>"><i class="fa fa-pencil"></i> Edit</a></td>
+                              <td><a href="/admin/dashboard/category/delete/<%=category.id%>"><i class="fa fa-trash"></i> Delete</a></td>
                             </tr>
                             </form>
                           <%})
@@ -193,10 +186,7 @@
                           <td></td>
                           <td></td>
                           <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td><a href="/admin/dashboard/productos/create"><i class="fa fa-plus"></i> Create</a></td>
+                          <td><a href="/admin/dashboard/category/create"><i class="fa fa-plus"></i> Create</a></td>
                         </tr>
                     </table>
           
@@ -211,16 +201,4 @@
           </div>
         </div>
         <!-- /page content -->
-
-	<script>
-   function edit_category(id) {
-      var obj = $('td[id*="'+id+'"]');
-      var obj_array = Object.values(obj);
-      console.log(obj);
-      console.log(obj_array);
-      obj_array.forEach(objeto => {
-        console.log(obj[objeto].val());
-      })
-    } 
-  </script>
 <%- include("./footer") %>

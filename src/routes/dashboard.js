@@ -37,13 +37,29 @@ router.get('/stock/:id', Utils.Auth, (req, res) => {
     Utils.renderDashboard(req, res, 'dashboard', {alert:''});
 })
 
-router.get('/categorias/:id', Utils.Auth, (req, res) => {
-    Utils.renderDashboard(req, res, 'dashboard', {alert:''});
+router.get('/category/:id', Utils.Auth, (req, res) => {
+	var id = Utils.clean(req.params.id);
+	if(!id)return res.redirect('/admin/dashboard');
+	if(isNaN(+id) && id !== 'create')return res.redirect('/admin/dashboard');
+	if(id === 'create') {
+		Utils.renderDashboard(req, res, 'create_category', {alert:'', categories});
+	}else {
+		Utils.database().all(`SELECT * FROM category WHERE id = ${+id}`, (err, categories) => {
+			Utils.renderDashboard(req, res, 'edit_category', {product, alert:'', categories});
+		});
+	}
 })
 
 router.get('/productos/delete/:id', Utils.Auth, (req, res) => {
 	var id = +Utils.clean(req.params.id);
 	Utils.database().run(`DELETE FROM products WHERE id = ${id}`, (err) => {
+		res.redirect('/admin/dashboard');
+	});
+})
+
+router.get('/category/delete/:id', Utils.Auth, (req, res) => {
+	var id = +Utils.clean(req.params.id);
+	Utils.database().run(`DELETE FROM category WHERE id = ${id}`, (err) => {
 		res.redirect('/admin/dashboard');
 	});
 })
