@@ -17,10 +17,9 @@
           <div class="col-md-9 order-2">
 
             <div class="row mb-5">
-
             <%data.rows.forEach(product => { %>
-
               <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+              <a id="categoria_producto" class="d-none"><%=product.category_0%></a>
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
                     <a href="shop-single.html"><img src="/public/products_images/<%=product.id%>/<%=product.image%>" alt="<%=product.name%>" class="img-fluid"></a>
@@ -43,8 +42,9 @@
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
               <ul class="list-unstyled mb-0">
                 <%data.categories.forEach(category => { %>
-                  <li class="mb-1"><a href="#" class="d-flex"><span><%=category.name%></span></a></li>
+                  <li class="mb-1"><a href="#" onclick="categories(<%=category.id%>);" class="d-flex"><span><%=category.name%></span></a></li>
                 <%})%>
+                  <li class="mb-1"><a href="#" onclick="categories('all')" class="d-flex"><span>Todos</span></a></li>
               </ul>
             </div>
 
@@ -80,7 +80,7 @@
         $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
       }
     });
-    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+    $("#amount").val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
       " - $" + $( "#slider-range" ).slider( "values", 1 ) );
   };
   siteSliderRange();
@@ -95,6 +95,21 @@
         $('p[id*="price"]:contains('+price+')').parent().parent().parent().show(1000);
       }
     })
+  }
+
+  function categories(category) {
+    if(category === "all"){
+        return $('a[id*="categoria_producto"]').parent().show(1000);
+    }
+    var items = $('a[id*="categoria_producto"]').text();
+    var items_2 = $('p[id*="price"]').parent().parent().parent().children('#categoria_producto');
+    for (var i = items_2.length - 1; i >= 0; i--) {
+      if(+items_2[i].text === +category){
+        $('a[id*="categoria_producto"]:contains("'+items_2[i].text+'")').parent().show(1000);
+      }else {
+        $('a[id*="categoria_producto"]:contains("'+items_2[i].text+'")').parent().hide(1000);
+      }
+    }
   }
 
 /*
