@@ -42,10 +42,10 @@ router.get('/category/:id', Utils.Auth, (req, res) => {
 	if(!id)return res.redirect('/admin/dashboard');
 	if(isNaN(+id) && id !== 'create')return res.redirect('/admin/dashboard');
 	if(id === 'create') {
-		Utils.renderDashboard(req, res, 'create_category', {alert:'', categories});
+		Utils.renderDashboard(req, res, 'create_category', {alert:''});
 	}else {
-		Utils.database().all(`SELECT * FROM category WHERE id = ${+id}`, (err, categories) => {
-			Utils.renderDashboard(req, res, 'edit_category', {product, alert:'', categories});
+		Utils.database().get(`SELECT * FROM category WHERE id = ${+id}`, (err, category) => {
+			Utils.renderDashboard(req, res, 'edit_category', {alert:'', category});
 		});
 	}
 })

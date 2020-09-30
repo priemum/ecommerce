@@ -1,0 +1,44 @@
+<%- include("./header", {title: "Dashboard" }) %>
+        <div class="right_col" role="main">
+            <div class="clearfix"></div>
+              <div class="col-md-6">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><%=data.category.name%></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+        <form id="upload-image-form" action="/admin/dashboard/category/<%=data.category.id%>" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+          	Nombre
+            <input type="text" name="name" value="<%=data.category.name%>" placeholder="name">
+          </div>
+          <div class="form-group">
+          	Descripcion
+            <textarea type="text" name="description" placeholder="description"><%=data.category.description%></textarea>
+          </div>
+          <button class="btn btn-lg btn-primary" id="upload-button" type="submit">Upload</button>
+        </form>
+</div>
+</div></div></div></div>
+
+<script>
+	var file_input = document.getElementById("file");
+	file_input.onchange = function(e) {
+  let reader = new FileReader();
+  reader.readAsDataURL(e.target.files[0]);
+
+  reader.onload = () => {
+  	var image = $('#preview');
+    image.attr('src', reader.result);
+  };
+}
+</script>
+<%- include("./footer") %>

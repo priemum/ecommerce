@@ -98,6 +98,29 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 	}
 });
 
+
+router.post('/category/:id', Utils.Auth, (req, res) => {
+	var id = Utils.clean(req.params.id);
+	if(!id)return res.redirect('/admin/dashboard');
+	if(isNaN(+id) && id !== 'create')return res.redirect('/admin/dashboard');
+	if(id === 'create') {
+		var datos = {
+			name 		: Utils.clean(req.body.name),
+			description : Utils.clean(req.body.description),
+		}
+		Utils.database().run(`INSERT INTO category(name, description) VALUES('${datos.name}','${datos.description}')`)
+		res.redirect('/admin/dashboard');
+	}else {
+		var datos = {
+			name 		: Utils.clean(req.body.name),
+			description : Utils.clean(req.body.description),
+		}
+		Utils.database().run(`UPDATE category SET name = '${datos.name}',
+		description = '${datos.description}' WHERE id = ${id}`)
+		res.redirect('/admin/dashboard');
+	}
+});
+
 router.post('/pedidos', Utils.Auth, (req, res) => {
 	res.end('Ready to post pedidos');
 });

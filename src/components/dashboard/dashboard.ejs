@@ -165,7 +165,6 @@
                         </tr>
                       </thead>
                       <tbody>
-
                         <%
                           data.categories.forEach(category => { %>
                           <form action="/admin/dashboard/category/<%=category.id%>">
@@ -177,8 +176,7 @@
                               <td><a href="/admin/dashboard/category/delete/<%=category.id%>"><i class="fa fa-trash"></i> Delete</a></td>
                             </tr>
                             </form>
-                          <%})
-                        %>
+                          <%})%>
                       </tbody>
 
                         <tr>

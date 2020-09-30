@@ -51,6 +51,7 @@
 	      <div class="form-group">
 	      	Categoría
 	          <select name="category_0" class="form-control">
+              <option value="" selected></option>
 	          	<%data.categories.forEach(category => { %>
 	              	<option value="<%=category.id%>"><%=category.name%></option>
 	          	<%})%>
