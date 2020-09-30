@@ -90,6 +90,7 @@
                           <th>Precio</th>
                           <th>Visible</th>
                           <th>Descuento</th>
+                          <th>Stock</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -103,6 +104,7 @@
                               <td><%=producto.price%></td>
                               <td><%=producto.visible%></td>
                               <td><%=producto.discount%></td>
+                              <td><%=producto.stock%></td>
                               <td>
                                 <a href="/admin/dashboard/productos/<%=producto.id%>"><i class="fa fa-pencil"></i> Edit</a><br />
                                 <a href="/admin/dashboard/productos/delete/<%=producto.id%>"><i class="fa fa-trash"></i> Delete</a>
@@ -113,6 +115,7 @@
                       </tbody>
 
                         <tr>
+                          <td></td>
                           <td></td>
                           <td></td>
                           <td></td>

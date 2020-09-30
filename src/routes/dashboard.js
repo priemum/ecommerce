@@ -21,7 +21,9 @@ router.get('/productos/:id', Utils.Auth, (req, res) => {
 		})
 	}else {
 		Utils.database().get(`SELECT * FROM products WHERE id = ${+id}`, (err, product) => {
-			Utils.renderDashboard(req, res, 'edit', {product, alert:''});
+			Utils.database().all(`SELECT * FROM category`, (err, categories) => {
+				Utils.renderDashboard(req, res, 'edit', {product, alert:'', categories});
+			});
 		});
 	}
 });

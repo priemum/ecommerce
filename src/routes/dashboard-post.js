@@ -16,14 +16,17 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 		var datos = {
 			name 		: Utils.clean(req.body.name),
 			description : Utils.clean(req.body.description),
-			product_id 	: +Utils.clean(req.body.product_id),
+			product_id 	: Utils.clean(req.body.product_id),
 			price 		: +Utils.clean(req.body.price),
-			image 		: req.files.image
+			stock 		: +Utils.clean(req.body.stock),
 		}
-		if(isNaN(datos.product_id) || isNaN(datos.price))return res.redirect('/admin/dashboard/productos/create');
+		if(req.files){
+			datos.image = req.files.image;
+		}
+		if(isNaN(datos.price) || isNaN(datos.stock))return res.redirect('/admin/dashboard/productos/create');
 		if(datos.image){
-			Utils.database().run(`INSERT INTO products(name, description, product_id, price, image) VALUES('${datos.name}','${datos.description}','${datos.product_id}',${datos.price}, '${datos.image.name}')`, (err) => {
-				Utils.database().get(`SELECT * FROM products WHERE product_id = ${datos.product_id} and name = '${datos.name}' and price = ${datos.price}`, (err, row) => {
+			Utils.database().run(`INSERT INTO products(name, description, product_id, price, stock, image) VALUES('${datos.name}','${datos.description}','${datos.product_id}',${datos.price},${datos.stock}, '${datos.image.name}')`, (err) => {
+				Utils.database().get(`SELECT * FROM products WHERE product_id = '${datos.product_id}' and name = '${datos.name}' and price = ${datos.price}`, (err, row) => {
 					if(err)return console.error(err.message);
 					if(row){
 			            fs.readdir(`${process.cwd()}/src/public/products_images/${row.id}`, (err, files) => {
@@ -45,17 +48,21 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 			})
 		}else {
 			Utils.database().run(`INSERT INTO products(name, description, product_id, price) VALUES('${datos.name}','${datos.description}',${datos.product_id},${datos.price})`)
+			res.redirect('/admin/dashboard');
 		}
 	}else {
 		var datos = {
 			name 		: Utils.clean(req.body.name),
 			description : Utils.clean(req.body.description),
-			product_id 	: +Utils.clean(req.body.product_id),
+			product_id 	: Utils.clean(req.body.product_id),
 			price 		: +Utils.clean(req.body.price),
 			discount 	: +Utils.clean(req.body.discount),
-			image 		: req.files.file
+			stock 	: +Utils.clean(req.body.stock),
 		}
-		if(isNaN(datos.product_id) || isNaN(datos.price) || isNaN(datos.discount))return res.redirect('/admin/dashboard/productos/'+id);
+		if(req.files){
+			datos.image = req.files.file;
+		}
+		if(isNaN(datos.price) || isNaN(datos.discount) || isNaN(datos.stock))return res.redirect('/admin/dashboard/productos/'+id);
 		if(datos.image){
 			fs.readdir(`${process.cwd()}/src/public/products_images/${id}`, (err, files) => {
 				if(err){
@@ -71,25 +78,24 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 			Utils.database().run(`UPDATE products SET image = '${datos.image.name}',
 			name = '${datos.name}',
 			description = '${datos.description}',
-			product_id = ${datos.product_id},
+			product_id = '${datos.product_id}',
 			price = ${datos.price},
+			stock = ${datos.stock},
 			discount = ${datos.discount} WHERE id = ${id}`)
 		}else {
 			Utils.database().run(`UPDATE products SET name = '${datos.name}',
 			description = '${datos.description}',
-			product_id = ${datos.product_id},
+			product_id = '${datos.product_id}',
 			price = ${datos.price},
+			stock = ${datos.stock},
 			discount = ${datos.discount} WHERE id = ${id}`)
+			res.redirect('/admin/dashboard');
 		}
 	}
 });
 
 router.post('/pedidos', Utils.Auth, (req, res) => {
 	res.end('Ready to post pedidos');
-});
-
-router.post('/stock', Utils.Auth, (req, res) => {
-	res.end('Ready to post stock');
 });
 
 router.post('/categorias', Utils.Auth, (req, res) => {
