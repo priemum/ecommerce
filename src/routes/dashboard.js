@@ -4,9 +4,10 @@ const Utils = require('../settings/utils.js');
 
 router.get('/', Utils.Auth, (req, res) => {
 	Utils.database().all(`SELECT * FROM pedidos`, (err, pedidos) => {
-		if(err)return console.error(err.message);
 		Utils.database().all(`SELECT * FROM products`, (err, productos) => {
-		    Utils.renderDashboard(req, res, 'dashboard', {alert:'', pedidos, productos});
+			Utils.database().all(`SELECT * FROM category`, (err, categories) => {
+			    Utils.renderDashboard(req, res, 'dashboard', {alert:'', pedidos, productos, categories});
+			})
 		})
 	})
 });

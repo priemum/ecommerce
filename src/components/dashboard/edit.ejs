@@ -16,13 +16,8 @@
                   <div class="x_content">
                     <br />
 <div class="row">
-    <div class="col-lg-4">
-      <div class="card shadow mb-4">
-        <ul class="list-group list-group-flush" style="font-size: 1.2rem;">
-		<img class="card-img-top" style="width: 100%; height: 200px;" id="preview" style="width: 100px; height: 100px;" src="/public/products_images/<%=data.product.id%>/<%=data.product.image%>">
-        </ul>
-      </div>
-    </div>
+		<img class="card-img-top" style="width: 100%; height: 300px;" id="preview" style="width: 100px; height: 100px;" src="/public/products_images/<%=data.product.id%>/<%=data.product.image%>">
+</div>
 
         <form id="upload-image-form" action="/admin/dashboard/productos/<%=data.product.id%>" method="post" enctype="multipart/form-data">
           <div id="image-preview-div" style="display: none">
@@ -53,6 +48,14 @@
           	ID del Producto
             <input type="text" name="product_id" id="product_id" value="<%=data.product.product_id%>" placeholder="product_id" required>
           </div>
+	      <div class="form-group">
+	      	Categoría
+	          <select name="category_0" class="form-control">
+	          	<%data.categories.forEach(category => { %>
+	              	<option value="<%=category.id%>"><%=category.name%></option>
+	          	<%})%>
+	          </select>
+	        </div>
           <div class="form-group">
           	Stock
             <input type="number" name="stock" id="stock" value="<%=data.product.stock%>" placeholder="stock" required>

@@ -19,13 +19,14 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 			product_id 	: Utils.clean(req.body.product_id),
 			price 		: +Utils.clean(req.body.price),
 			stock 		: +Utils.clean(req.body.stock),
+			category_0	: +Utils.clean(req.body.category_0),
 		}
 		if(req.files){
 			datos.image = req.files.image;
 		}
 		if(isNaN(datos.price) || isNaN(datos.stock))return res.redirect('/admin/dashboard/productos/create');
 		if(datos.image){
-			Utils.database().run(`INSERT INTO products(name, description, product_id, price, stock, image) VALUES('${datos.name}','${datos.description}','${datos.product_id}',${datos.price},${datos.stock}, '${datos.image.name}')`, (err) => {
+			Utils.database().run(`INSERT INTO products(name, description, product_id, price, stock, image, category_0) VALUES('${datos.name}','${datos.description}','${datos.product_id}',${datos.price},${datos.stock}, '${datos.image.name}', ${datos.category_0})`, (err) => {
 				Utils.database().get(`SELECT * FROM products WHERE product_id = '${datos.product_id}' and name = '${datos.name}' and price = ${datos.price}`, (err, row) => {
 					if(err)return console.error(err.message);
 					if(row){
@@ -47,7 +48,7 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 				})
 			})
 		}else {
-			Utils.database().run(`INSERT INTO products(name, description, product_id, price) VALUES('${datos.name}','${datos.description}',${datos.product_id},${datos.price})`)
+			Utils.database().run(`INSERT INTO products(name, description, product_id, price, category_0) VALUES('${datos.name}','${datos.description}',${datos.product_id},${datos.price}, ${datos.category_0})`)
 			res.redirect('/admin/dashboard');
 		}
 	}else {
@@ -58,6 +59,7 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 			price 		: +Utils.clean(req.body.price),
 			discount 	: +Utils.clean(req.body.discount),
 			stock 	: +Utils.clean(req.body.stock),
+			category_0	: +Utils.clean(req.body.category_0),
 		}
 		if(req.files){
 			datos.image = req.files.file;
@@ -81,6 +83,7 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 			product_id = '${datos.product_id}',
 			price = ${datos.price},
 			stock = ${datos.stock},
+			category_0 = ${datos.category_0},
 			discount = ${datos.discount} WHERE id = ${id}`)
 		}else {
 			Utils.database().run(`UPDATE products SET name = '${datos.name}',
@@ -88,6 +91,7 @@ router.post('/productos/:id', Utils.Auth, (req, res) => {
 			product_id = '${datos.product_id}',
 			price = ${datos.price},
 			stock = ${datos.stock},
+			category_0 = ${datos.category_0},
 			discount = ${datos.discount} WHERE id = ${id}`)
 			res.redirect('/admin/dashboard');
 		}
