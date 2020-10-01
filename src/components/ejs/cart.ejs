@@ -26,8 +26,9 @@
                 <tbody>
                   <%
                   var subtotal = 0;
+                  var item = 0;
                     data.products.forEach(product =>  {
-                      subtotal = subtotal + +product.product.price;
+                      subtotal = subtotal + (+product.product.price * +product.quantity);
                   %>
                     <tr>
                       <td class="product-thumbnail">
@@ -36,17 +37,21 @@
                       <td class="product-name">
                         <h2 class="h5 text-black"><%=product.product.name%></h2>
                       </td>
-                      <td>$<%=product.product.price%></td>
+                      <% if (product.quantity === 1) { -%>
+                        <td>$<%=+product.product.price%>)</td>
+                      <% } else { -%>
+                        <td>$<%=+product.product.price * +product.quantity%> ($<%=product.product.price%> x <%=product.quantity%>)</td>
+                      <% } -%>
                       <td>
                         <div class="input-group mb-3" style="max-width: 120px;">
                           <%=product.quantity%>
                         </div>
 
                       </td>
-                      <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
+                      <td><a href="/shop/cart/delete/<%=item%>" class="btn btn-primary btn-sm">X</a></td>
                     </tr>
-                  <%  
-                    })
+                  <%  item++;
+                    });
                   %>
                 </tbody>
               </table>
@@ -83,13 +88,13 @@
                     <span class="text-black">Total</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    <strong class="text-black">$<%=subtotal%></strong>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='/cart/checkout'">Proceder a Pagar</button>
                   </div>
                 </div>
               </div>

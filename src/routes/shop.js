@@ -43,6 +43,17 @@ router.post('/shop/cart/:product', (req, res) => {
     });
 });
 
+router.get('/shop/cart/delete/:item', (req, res) => {
+    var item = +Utils.clean(req.params.item);
+    if(isNaN(item))return res.redirect('/cart');
+    if(item === undefined || item === null)return res.redirect('/cart');
+    if(req.session.cart){
+        if(!req.session.cart[item])return res.redirect('/cart');
+        req.session.cart.splice(item, 1);
+        res.redirect('/cart');
+    }else res.redirect('/cart');
+});
+
 router.get('/cart', (req, res) => {
     var products = [];
     if(req.session.cart)products = req.session.cart;
