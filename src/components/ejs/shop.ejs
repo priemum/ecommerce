@@ -27,9 +27,11 @@
                     <h3><a href="shop-single.html"><%=product.name%></a></h3>
                     <p class="mb-0"><%=product.description%></p>
                     <p class="text-primary font-weight-bold" id="price">$<%=product.price%></p>
-                    <% if (data.categories[product.category_0]) { -%>
-                      <a id="categoria_producto"><%=data.categories[product.category_0].name%></a>
-                    <% } -%>
+                    <%data.categories.forEach(category => { %>
+                      <% if (+category.id === +product.category_0) { -%>
+                        <a href="#site-section" class="category_item" category="<%=category.id%>"><span><%=category.name%></span></a>
+                      <% } -%>
+                    <%})%>
                   </div>
                 </div>
               </div>
@@ -41,7 +43,7 @@
 
           <div class="col-md-3 order-1 mb-5 mb-md-0">
             <div class="border p-4 rounded mb-4">
-              <h3 class="mb-3 h6 text-uppercase text-black d-block">Categorías</h3>
+              <h3 class="mb-3 h6 text-uppercase text-black d-block">Filtrar por Categorías</h3>
               <ul class="list-unstyled mb-0 category_list">
                 <%data.categories.forEach(category => { %>
                   <li class="mb-1"><a href="#site-section" class="d-flex category_item" category="<%=category.id%>"><span><%=category.name%></span></a></li>
@@ -56,7 +58,6 @@
                 <div id="slider-range" class="border-primary"></div>
                 <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
               </div>
-
             </div>
           </div>
         </div>

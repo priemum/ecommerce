@@ -54,7 +54,7 @@ app.use('/', require('./src/routes/shop'));
 app.use('/api/products', require('./src/api/products'));
 
 app.get('/', (req, res) => {
-    db.all('SELECT * FROM products', (err, rows) => {
+    db.all('SELECT * FROM products ORDER BY pedidos LIMIT 7', (err, rows) => {
         if (err) return console.error(err.message);
             Utils.database().close();
             Utils.renderTemplate(req, res, 'index', {rows, alert:''})
