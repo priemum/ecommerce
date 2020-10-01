@@ -21,10 +21,10 @@
               <div class="col-sm-6 col-lg-4 mb-4 product-item" data-aos="fade-up" category="<%=product.category_0%>">
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="shop-single.html"><img src="/public/products_images/<%=product.id%>/<%=product.image%>" alt="<%=product.name%>" class="img-fluid"></a>
+                    <a href="/shop/<%=product.id%>"><img src="/public/products_images/<%=product.id%>/<%=product.image%>" alt="<%=product.name%>" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="shop-single.html"><%=product.name%></a></h3>
+                    <h3><a href="/shop/<%=product.id%>"><%=product.name%></a></h3>
                     <p class="mb-0"><%=product.description%></p>
                     <p class="text-primary font-weight-bold" id="price">$<%=product.price%></p>
                     <%data.categories.forEach(category => { %>

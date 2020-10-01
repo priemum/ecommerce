@@ -2,10 +2,12 @@ const router = require('express').Router();
 
 const Utils = require('../settings/utils.js');
 
+const db = Utils.database();
+
 router.get('/shop', (req, res) => {
-    Utils.database().all('SELECT * FROM products', (err, rows) => {
+    db.all('SELECT * FROM products', (err, rows) => {
         if (err) return console.error(err.message);
-        Utils.database().all('SELECT * FROM category', (err, categories) => {
+        db.all('SELECT * FROM category', (err, categories) => {
             var prices = {
                 min : 1000000000,
                 max : 0
@@ -19,30 +21,32 @@ router.get('/shop', (req, res) => {
     });
 });
 
+router.get('/shop/:product', (req, res) => {
+    var product = +Utils.clean(req.params.product);
+    if(isNaN(product))return res.redirect('/shop');
+    db.get(`SELECT * FROM products WHERE id = ${product}`, (err, product) => {
+        if(!product)return res.redirect('/shop');
+        Utils.renderTemplate(req, res, 'shop_single', {product, alert: ''});
+    })
+})
 
-router.post('/shop', (req, res) => {
-    var mail_login = Utils.clean(req.body.mail);
-    var password = Utils.clean(req.body.password);
-    if (mail_login && password) {
-        var hash_password = crypto.createHmac('sha1', 'abcdeg').update(password).digest('hex');
-        var query = 'SELECT * FROM users WHERE email = "' + mail_login + '" AND password = "' + hash_password + '"';
-        db.get(query, (err, rows) => {
-            if (rows) {
-                req.session.loggedin = true;
-                req.session.username = rows.username;
-                req.session.email = mail_login;
-                req.session.admin = rows.admin;
-                req.session.user_id = rows.id;
-                res.redirect('/admin/dashboard');
-            } else {
-                Utils.renderTemplate(req, res, 'login', {alert:''});
-            }
-            res.end();
-        });
-    } else {
-        Utils.renderTemplate(req, res, 'login', {alert:'Inserte Email y Contraseña'});
-        res.end();
-    }
+router.post('/shop/cart/:product', (req, res) => {
+    var product = +Utils.clean(req.params.product);
+    var quantity = +Utils.clean(req.body.quantity);
+    if(isNaN(product))return res.redirect('/shop');
+    if(isNaN(quantity))return res.redirect('/shop/'+product);
+    db.get(`SELECT * FROM products WHERE id = ${product}`, (err, product) => {
+        if(!product)return res.redirect('/shop');
+        if(req.session.cart)req.session.cart.push({'product' : product, 'quantity' : quantity});
+        else req.session.cart = [{'product' : product, 'quantity' : quantity}];
+        res.redirect('/cart');
+    });
 });
+
+router.get('/cart', (req, res) => {
+    var products = [];
+    if(req.session.cart)products = req.session.cart;
+    Utils.renderTemplate(req, res, 'cart', {products, alert:''});
+})
 
 exports = module.exports = router;
