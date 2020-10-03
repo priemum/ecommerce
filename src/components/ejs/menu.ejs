@@ -53,8 +53,10 @@
                   <li><a href="/admin/profile"><span class="icon icon-person"></span></a></li> -->
                   <li>
                     <a href="/cart" class="site-cart">
-                      <span class="icon icon-shopping_cart"></span><!-- 
-                      <span class="count">1</span> -->
+                      <span class="icon icon-shopping_cart"></span>
+                      <% if (req.session.cart) { -%>
+                        <span class="count"><%=req.session.cart.length%></span>
+                      <% }-%>
                     </a>
                   </li> 
                   <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>

@@ -1,5 +1,4 @@
 <%- include("./menu", {title: 'cart' }) %>
-<%=console.log(req.session);%>
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
@@ -7,8 +6,8 @@
         </div>
       </div>
     </div>
-
-    <div class="site-section">
+<% if (data.products.length >= 1) { -%>
+      <div class="site-section">
       <div class="container">
         <div class="row mb-5">
           <form class="col-md-12" method="post">
@@ -16,11 +15,11 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th class="product-thumbnail">Image</th>
-                    <th class="product-name">Product</th>
-                    <th class="product-price">Price</th>
-                    <th class="product-quantity">Quantity</th>
-                    <th class="product-remove">Remove</th>
+                    <th class="product-thumbnail">Imagen</th>
+                    <th class="product-name">Producto</th>
+                    <th class="product-price">Precio</th>
+                    <th class="product-quantity">Cantidad</th>
+                    <th class="product-remove">Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -72,7 +71,7 @@
               <div class="col-md-7">
                 <div class="row">
                   <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                    <h3 class="text-black h4 text-uppercase">Total en el Carrito</h3>
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -103,6 +102,19 @@
         </div>
       </div>
     </div>
+<% } else { -%>
+  <div class="row" style="overflow-x:hidden;">
+    <div class="col-md-6">
+      <div class="row mb-5">
+        <div class="col-md-6">
+          <p>No tienes productos en el Carrito</p>
+          <a href="/shop" class="btn btn-outline-primary btn-sm btn-block">Comprar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<% } -%>
+
 
 
 <%- include("./footer") %>
