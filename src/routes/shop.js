@@ -4,6 +4,10 @@ const Utils = require('../settings/utils.js');
 
 const db = Utils.database();
 
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+
+const stripe = require('stripe')('sk_test_51HXa8NI4a9iYksByC4qP3Xm8YYVkUMDN7BHU6SSSYmA1j6UAihDbONLWkyjMMVEtp3cN47c7nXieVHRx90EirpGO00IUGQG9Em');
+
 router.get('/shop', (req, res) => {
     db.all('SELECT * FROM products', (err, rows) => {
         if (err) return console.error(err.message);
@@ -58,6 +62,20 @@ router.get('/cart', (req, res) => {
     var products = [];
     if(req.session.cart)products = req.session.cart;
     Utils.renderTemplate(req, res, 'cart', {products, alert:''});
-})
+});
+
+router.get('/cart/checkout', (req, res) => {
+    if(!req.session.cart)return res.redirect('/shop');
+    if(req.session.cart.length <= 0)return res.redirect('/shop');
+    var products = req.session.cart;
+    Utils.renderTemplate(req, res, 'checkout', {alert:'', products});
+});
+
+
+
+router.get('/cart/checkout/callback', (req, res) => {
+    var params = Utils.getParams(req, res);
+    res.end(JSON.stringify(params));
+});
 
 exports = module.exports = router;

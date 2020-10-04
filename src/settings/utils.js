@@ -46,3 +46,18 @@ exports.database = (db) => {
   db = new sqlite3.Database("./every.sqlite");
   return db;
 }
+
+exports.getParams = (req, res) => {
+    var url_partial = req.protocol + '://' + req.get('host') + req.originalUrl;
+    url_partial = url_partial.split('?').slice(1).join(' ').split('&');
+    var url = [];
+    url_partial.forEach(u => {
+        var u_partial = u.split('=');
+        var u = {
+            param : u_partial[0],
+            value : u_partial[1],
+        }
+        url.push(u);
+    })
+    return url;
+}
