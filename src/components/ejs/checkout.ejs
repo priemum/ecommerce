@@ -3,54 +3,47 @@
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <a href="cart.html">Cart</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Checkout</strong></div>
+          <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <a href="/cart">Cart</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Checkout</strong></div>
         </div>
       </div>
     </div>
-
+    <form action="/cart/checkout" method="post">
     <div class="site-section">
       <div class="container">
-        <div class="row mb-5">
-          <div class="col-md-12">
-            <div class="border p-4 rounded" role="alert">
-              Returning customer? <a href="#">Click here</a> to login
-            </div>
-          </div>
-        </div>
         <div class="row">
           <div class="col-md-6 mb-5 mb-md-0">
-            <h2 class="h3 mb-3 text-black">Billing Details</h2>
+            <h2 class="h3 mb-3 text-black">Detalles de Compra</h2>
             <div class="p-3 p-lg-5 border">
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="c_fname" class="text-black">Nombre <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" name="c_fname">
+                  <input required type="text" class="form-control" id="c_fname" name="name">
                 </div>
                 <div class="col-md-6">
                   <label for="c_lname" class="text-black">Apellido <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_lname" name="c_lname">
+                  <input required type="text" class="form-control" id="c_lname" name="last_name">
                 </div>
               </div>
 
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="c_address" class="text-black">Dirección <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Dirección">
+                  <input required type="text" class="form-control" id="c_address" name="address" placeholder="Dirección">
                 </div>
               </div>
 
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Departamento, suite, unidad etc. (opcional)">
+                <input required type="text" class="form-control" placeholder="Departamento, suite, unidad etc. (opcional)">
               </div>
 
               <div class="form-group row mb-5">
                 <div class="col-md-6">
                   <label for="c_email_address" class="text-black">Dirección de Email <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_email_address" name="c_email_address">
+                  <input required type="text" class="form-control" id="c_email_address" name="email_address">
                 </div>
                 <div class="col-md-6">
                   <label for="c_phone" class="text-black">Celular <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Número de Celular">
+                  <input required type="text" class="form-control" id="c_phone" name="phone" placeholder="Número de Celular">
                 </div>
               </div>
 
@@ -63,33 +56,33 @@
                     <div class="form-group row">
                       <div class="col-md-6">
                         <label for="c_diff_fname" class="text-black">Nombre <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_fname" name="c_diff_fname">
+                        <input type="text" class="form-control" id="c_diff_fname" name="diff_name">
                       </div>
                       <div class="col-md-6">
                         <label for="c_diff_lname" class="text-black">Apellido <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_lname" name="c_diff_lname">
+                        <input type="text" class="form-control" id="c_diff_lname" name="diff_last_name">
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-md-12">
                         <label for="c_diff_address" class="text-black">Dirección <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_address" name="c_diff_address" placeholder="Street address">
+                        <input type="text" class="form-control" id="c_diff_address" name="diff_address" placeholder="Street address">
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+                      <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)" name="apartment">
                     </div>
 
                     <div class="form-group row mb-5">
                       <div class="col-md-6">
                         <label for="c_diff_email_address" class="text-black">Dirección de Email <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_email_address" name="c_diff_email_address">
+                        <input type="text" class="form-control" id="c_diff_email_address" name="diff_email_address">
                       </div>
                       <div class="col-md-6">
                         <label for="c_diff_phone" class="text-black">Celular <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_phone" name="c_diff_phone" placeholder="Número de Celular">
+                        <input type="text" class="form-control" id="c_diff_phone" name="diff_phone" placeholder="Número de Celular">
                       </div>
                     </div>
 
@@ -99,8 +92,8 @@
               </div>
 
               <div class="form-group">
-                <label for="c_order_notes" class="text-black">Order Notes</label>
-                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
+                <label for="c_order_notes" class="text-black">Notas Adicionales</label>
+                <textarea name="order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Escriba su nota aquí..."></textarea>
               </div>
 
             </div>
@@ -139,41 +132,37 @@
                         <td class="text-black font-weight-bold"><strong>Total de Orden</strong></td>
                         <td class="text-black font-weight-bold"><strong>$<%=total%></strong></td>
                       </tr>
+                      <tr>
+                      	<td class="text-black font-weight-bold">ID de compra</td>
+                      	<td class="text-black font-weight-bold"><strong><%=req.session.id%></strong></td>
+                      </tr>
                     </tbody>
                   </table>
-
+					<input type="radio" name="payment" value="" checked disabled style="display: none;">
                   <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
-
-                    <div class="collapse" id="collapsebank">
+                    <h3 class="h6 mb-0"><a class="d-block"><input type="radio" name="payment" value="transferencia">&nbsp; Transferencia Bancaria</a></h3>
                       <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                        <p class="mb-0">Haz el pago directo a nuestra cuenta bancaria. Por favor use su ID de compra como motivo de pago. Su orden no llegara hasta que los fondos sean vistos en nuestra cuenta.</p>
                       </div>
-                    </div>
                   </div>
 
                   <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
+                    <h3 class="h6 mb-0"><a class="d-block"><input type="radio" name="payment" value="efectivo">&nbsp; Efectivo</a></h3>
 
-                    <div class="collapse" id="collapsecheque">
                       <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                        <p class="mb-0">Haz el pago directo en persona. Al elegir esta opción, debes proveer un numero y mail de contacto obligatoriamente.</p>
                       </div>
-                    </div>
                   </div>
 
                   <div class="border p-3 mb-5">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-
-                    <div class="collapse" id="collapsepaypal">
+                    <h3 class="h6 mb-0"><a class="d-block"><input type="radio" name="payment" value="tarjeta">&nbsp; Tarjeta</a></h3>
                       <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                        <p class="mb-0">Haz el pago al instante mediante tarjeta.</p>
                       </div>
-                    </div>
                   </div>
 
                   <div class="form-group">
-                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
+                    <button class="btn btn-primary btn-lg py-3 btn-block" type="submit">Place Order</button>
                   </div>
 
                 </div>
@@ -182,7 +171,7 @@
 
           </div>
         </div>
-        <!-- </form> -->
+        </form>
       </div>
     </div>
 

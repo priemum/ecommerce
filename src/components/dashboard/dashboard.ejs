@@ -36,6 +36,10 @@
                           <th>Phone</th>
                           <th>Fecha</th>
                           <th>Precio</th>
+                          <th>Código</th>
+                          <th>Método de Pago</th>
+                          <th>Nota</th>
+                          <th>Items</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -49,6 +53,12 @@
                               <td><%=pedido.phone%></td>
                               <td><%=pedido.date%></td>
                               <td><%=pedido.price%></td>
+                              <td><%=pedido.codigo%></td>
+                              <td><%=pedido.payment%></td>
+                              <td><%=pedido.note%></td>
+                              <td><%JSON.parse(pedido.items).forEach(item => { %>
+                                <%=item.item%><strong> x <%=item.quantity%></strong><br>
+                              <%})%></td>
                             </tr>
                           <%})
                         %>

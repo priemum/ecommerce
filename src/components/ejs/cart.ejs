@@ -1,4 +1,14 @@
 <%- include("./menu", {title: 'cart' }) %>
+
+  <% if (data.alert) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong><%= data.alert %></strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <% } %>
+
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
@@ -37,7 +47,7 @@
                         <h2 class="h5 text-black"><%=product.product.name%></h2>
                       </td>
                       <% if (product.quantity === 1) { -%>
-                        <td>$<%=+product.product.price%>)</td>
+                        <td>$<%=+product.product.price%></td>
                       <% } else { -%>
                         <td>$<%=+product.product.price * +product.quantity%> ($<%=product.product.price%> x <%=product.quantity%>)</td>
                       <% } -%>

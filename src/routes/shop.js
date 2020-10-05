@@ -71,7 +71,56 @@ router.get('/cart/checkout', (req, res) => {
     Utils.renderTemplate(req, res, 'checkout', {alert:'', products});
 });
 
-
+router.post('/cart/checkout', (req, res) => {
+    if(!req.session.cart)return res.redirect('/shop');
+    var items = [];
+    var price = 0;
+    req.session.cart.forEach(cart => {
+        var cart_partial = {
+            item        : cart.product.name,
+            item_id     : cart.product.product_id,
+            quantity    : cart.quantity,
+        }
+        items.push(cart_partial);
+        price = price + cart.product.price;
+    });
+    var datos = {
+        name            : Utils.clean(req.body.name),
+        last_name       : Utils.clean(req.body.last_name),
+        address         : Utils.clean(req.body.address),
+        email_address   : Utils.clean(req.body.email_address),
+        phone           : Utils.clean(req.body.phone),
+        order_notes     : Utils.clean(req.body.order_notes),
+        codigo          : req.session.id,
+        date            : new Date(),
+        payment         : Utils.clean(req.body.payment),
+        price           : price,
+        items           : JSON.stringify(items),
+        note            : Utils.clean(req.body.order_notes),
+        apartment       : Utils.clean(req.body.apartment),
+    };
+    db.run(`INSERT INTO pedidos(items, mail, phone, price, name, lastname, date, dni, address, payment, note, codigo) VALUES('${datos.items}',
+    '${datos.email_address}',
+    '${datos.phone}',
+    ${datos.price},
+    '${datos.name}',
+    '${datos.last_name}',
+    '${datos.date}',
+    '${datos.dni}',
+    '${datos.address + ' ' + datos.apartment}',
+    '${datos.payment}',
+    '${datos.note}',
+    '${datos.codigo}')`, (err) => {
+        if(err){
+            console.error(err.message);
+            return res.status(500).end('Error while inserting the delivery. (ERR : 500)');
+        }
+        else {
+            req.session.cart = [];
+            Utils.renderTemplate(req, res, 'cart', {alert:'Producto en Orden! Puede contactarse con nosotros para ver el estado de su orden, o esperar a que nos contactemos para su envío! Muchas gracias por confiar en nosotros!', products : []});
+        }
+    });
+});
 
 router.get('/cart/checkout/callback', (req, res) => {
     var params = Utils.getParams(req, res);
